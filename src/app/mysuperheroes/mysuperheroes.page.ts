@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AddSuperheroModalComponent} from "../add-superhero.modal/add-superhero.modal.component";
-import {ModalController} from "@ionic/angular";
+import {AlertController, ModalController} from "@ionic/angular";
 import {SuperheroServiceService} from "../superhero-service.service";
 import {AuthService} from "../auth/auth.service";
 import {Superhero} from "../superheroes/superhero-element/superhero-model";
@@ -16,7 +16,7 @@ export class MysuperheroesPage implements OnInit {
   superheroes: Superhero[];
   private _superheroSub: Subscription;
   superherosById: Superhero[];
-  constructor(private modalCtrl: ModalController, private superheroService: SuperheroServiceService, private authService: AuthService) {
+  constructor(private alertCtrl: AlertController, private modalCtrl: ModalController, private superheroService: SuperheroServiceService, private authService: AuthService) {
     this.superheroes = [];
     this.superherosById=[];
     this._superheroSub= new Subscription();
@@ -66,11 +66,31 @@ export class MysuperheroesPage implements OnInit {
           console.log(res);
           this.ngOnInit();
           this.ionViewWillEnter();
+          this.presentAlertAdd();
         })
       }
     })
   }
 
+    async presentAlertAdd() {
+        const alert = await this.alertCtrl.create({
+            header: 'Superhero added!',
+            message: 'You have successfully added a new superhero!',
+            buttons: ['GOOD'],
+        });
+
+        await alert.present();
+    }
+
+    async presentAlertUpdate() {
+        const alert = await this.alertCtrl.create({
+            header: 'Superhero updated!',
+            message: 'You have successfully updated this superhero!',
+            buttons: ['GOOD'],
+        });
+
+        await alert.present();
+    }
 
   updateSuperhero(id: string, name: String, description: String, strength: number, universe: String, imageUrl: String, iconName: string) {
     this.modalCtrl.create({
@@ -102,6 +122,7 @@ export class MysuperheroesPage implements OnInit {
           console.log(res);
           this.ngOnInit();
           this.ionViewWillEnter();
+          this.presentAlertUpdate();
         })
       }
     })

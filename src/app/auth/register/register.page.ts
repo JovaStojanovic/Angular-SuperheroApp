@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
+import {AlertController} from "@ionic/angular";
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ import {Router} from "@angular/router";
 export class RegisterPage implements OnInit {
 
    registerForm: FormGroup;
-  constructor(private authService: AuthService,private router: Router) {
+  constructor(private alertCtrl: AlertController, private authService: AuthService,private router: Router) {
 
   }
 
@@ -27,11 +28,35 @@ export class RegisterPage implements OnInit {
 
   onRegister(){
     console.log(this.registerForm);
+    if(this.registerForm.valid){
     this.authService.register(this.registerForm.value).subscribe(resData=> {
       console.log("Registracija uspela");
+      this.presentAlertRegister();
       console.log(resData);
       this.router.navigateByUrl("/login");
-    })
+    })} else {
+      this.presentAlertRegisterError();
+    }
+  }
+
+  async presentAlertRegister() {
+    const alert = await this.alertCtrl.create({
+      header: 'You are registered!',
+      message: 'Please, log in with your account now!',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  async presentAlertRegisterError() {
+    const alert = await this.alertCtrl.create({
+      header: 'Your registration failed!',
+      message: 'Please, try again!',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
 }

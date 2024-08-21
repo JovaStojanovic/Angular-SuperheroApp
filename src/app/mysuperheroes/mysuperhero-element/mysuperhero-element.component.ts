@@ -35,15 +35,7 @@ export class MysuperheroElementComponent  implements OnInit {
     await alert.present();
   }
 
-  async presentAlertUpdate() {
-    const alert = await this.alertCtrl.create({
-      header: 'Superhero updated!',
-      message: 'You have successfully updated this superhero!',
-      buttons: ['GOOD'],
-    });
 
-    await alert.present();
-  }
 
   deleteSuperhero(superheroID: String) {
     this.alertCtrl.create({
@@ -75,6 +67,5 @@ export class MysuperheroElementComponent  implements OnInit {
 
   updateSuperhero(id: string, name: String, description: String, strength: number, universe: String, imageUrl: String, iconName: string) {
     this.msp.updateSuperhero(id, name, description, strength, universe, imageUrl, iconName);
-    this.presentAlertUpdate();
   }
 }

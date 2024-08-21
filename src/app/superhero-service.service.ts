@@ -46,14 +46,14 @@ export class SuperheroServiceService {
   imageUrl: String,
   user_id: String,
   iconName: String){
-    return this.http.post<{id: string}>('https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes.json', {
+    return this.http.post<{id: string}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes.json?auth=${this.authService.getToken()}`, {
       name, description, strength, universe, imageUrl, user_id, iconName
     })
   }
 
   addFavorite(superheroID: String,
               user_id: String) {
-    return this.http.post<{id: string}>('https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites.json', {
+    return this.http.post<{id: string}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites.json?auth=${this.authService.getToken()}`, {
       superheroID, user_id
     })
   }
@@ -62,7 +62,7 @@ export class SuperheroServiceService {
   //superhero1 i superhero2 prate strukturu interfejsa SuperheroData
   //id dodeljuje sam firebase
   getSuperheroes(){
-    return this.http.get<{[key: string]: SuperheroData}>('https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes.json')
+    return this.http.get<{[key: string]: SuperheroData}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes.json?auth=${this.authService.getToken()}`)
       .pipe(map((superheroData)=>{
         console.log(superheroData);
         const superheroes: Superhero[]=[];
@@ -92,7 +92,7 @@ export class SuperheroServiceService {
     }));
   }
   getSuperheroesById(){
-    return this.http.get<{[key: string]: SuperheroData}>('https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes.json')
+    return this.http.get<{[key: string]: SuperheroData}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes.json?auth=${this.authService.getToken()}`)
       .pipe(map((superheroData)=>{
           console.log(superheroData);
           console.log(this.authService.getUserId());
@@ -130,15 +130,15 @@ export class SuperheroServiceService {
   }
 
   deleteSuperhero(superheroID: String) {
-    return this.http.delete('https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes/'+superheroID+'.json');
+    return this.http.delete(`https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes/`+superheroID+`.json?auth=${this.authService.getToken()}`);
   }
 
     updateSuperhero(id: string, updatedSuperhero: {name: string, description: string, strength: number, universe: string, imageUrl: string,  iconName: string}) {
-      return this.http.put('https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes/'+id+'.json', updatedSuperhero);
+      return this.http.put(`https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes/`+id+`.json?auth=${this.authService.getToken()}`, updatedSuperhero);
     }
 
   updateSuperheroID(id: string, updatedSuperhero: {name: string, description: string, strength: number, universe: string, imageUrl: string, user_id:string, iconName: string}) {
-    return this.http.put('https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes/'+id+'.json', updatedSuperhero);
+    return this.http.put(`https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes/`+id+`.json?auth=${this.authService.getToken()}`, updatedSuperhero);
   }
 
   deleteFavorite(superheroID: string) {
@@ -146,11 +146,11 @@ export class SuperheroServiceService {
     this.getFavoriteBySuperheroIDAndUserId(superheroID).subscribe(res=> {
       id2 = res;
       console.log(res);
-      return this.http.delete('https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites/'+res+'.json').subscribe();
+      return this.http.delete(`https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites/`+res+`.json?auth=${this.authService.getToken()}`).subscribe();
     });
   }
   getFavoriteBySuperheroIDAndUserId(superheroID: String) {
-    return this.http.get<{[key: string]: FavoritesData}>('https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites.json')
+    return this.http.get<{[key: string]: FavoritesData}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites.json?auth=${this.authService.getToken()}`)
       .pipe(map((favoritesData)=>{
           console.log(favoritesData);
           for(const key in favoritesData){
@@ -165,7 +165,7 @@ export class SuperheroServiceService {
         }))
   }
   getFavoritesById() {
-    return this.http.get<{[key: string]: FavoritesData}>('https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites.json')
+    return this.http.get<{[key: string]: FavoritesData}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites.json?auth=${this.authService.getToken()}`)
       .pipe(map((favoritesData)=>{
           console.log(favoritesData);
           const favorites: Favorite[]=[];
