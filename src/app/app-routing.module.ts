@@ -44,6 +44,21 @@ const routes: Routes = [
     loadChildren: () => import('./mysuperheroes/mysuperheroes.module').then( m => m.MysuperheroesPageModule),
     canLoad: [AuthGuard]
   },
+  {
+    path: 'usuperhero',
+    loadChildren: () => import('./u-superhero/u-superhero.module').then( m => m.USuperheroPageModule),
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'usuperherodone',
+    loadChildren: () => import('./u-superhero-done/u-superhero-done.module').then( m => m.USuperheroDonePageModule),
+    canLoad: [AuthGuard]
+  },
+  {
+    path: 'loading',
+    loadChildren: () => import('./loading/loading.module').then( m => m.LoadingPageModule),
+    canLoad: [AuthGuard]
+  },
 
 
 

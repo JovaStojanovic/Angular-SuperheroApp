@@ -19,6 +19,7 @@ export class LoginPage implements OnInit {
   onLogin(form: NgForm){
     console.log(form);
     if(form.valid) {
+      console.log(form.value);
       this.authService.login(form.value).subscribe(resData => {
         console.log("Prijava uspesna");
         this.presentAlertLogin();

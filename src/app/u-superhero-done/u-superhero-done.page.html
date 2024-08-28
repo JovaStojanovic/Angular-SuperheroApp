@@ -1,0 +1,102 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>You as a superhero</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content [fullscreen]="true" *ngIf="!isThereUSuperhero">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title>You as a superhero</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-row *ngIf="!stream">
+    <ion-col size="12" class="ion-text-center">
+      <ion-button (click)="checkPermision()" type = "submit" color ="primary" shape = "round" expand = "block">Open camera</ion-button>
+    </ion-col>
+  </ion-row> 
+
+  <ion-row *ngIf="stream">
+    <ion-col size="12" class="ion-text-center">
+      <ion-button (click)="closeCamera()" type = "submit" color ="primary" shape = "round" expand = "block">Close camera</ion-button>
+    </ion-col>
+  </ion-row> 
+
+  <ion-row *ngIf="stream">
+    <ion-col size="12" class="ion-text-center">
+      <webcam [height]="500" [width]="300" [trigger]="$trigger" (imageCapture)="snapshot($event)" [imageQuality]="1"></webcam>
+      <ion-button (click)="captureImage()" color ="primary" shape = "round" expand = "block">Take a picture</ion-button>
+    </ion-col>
+  </ion-row>
+  
+  <form [formGroup] = "superheroForm" (ngSubmit)="onUpload()">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">
+              Name:
+            </ion-label>
+            <ion-input type="text" ngModel formControlName="name" required="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">
+              Description:
+            </ion-label>
+            <ion-textarea rows="4" type="text" ngModel formControlName="description" required="true"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    <ion-row *ngIf="previewImage">
+      <ion-col size="12" class="ion-text-center">
+        <img [src]="previewImage" height="200" width="300" >
+        <ion-input ngModel formControlName="img" type="text" [hidden]></ion-input>
+      </ion-col>
+      <ion-col size="12" class="ion-text-center">
+        <ion-button type = "submit" color ="primary" shape = "round" expand = "block">Upload</ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+  </form>
+</ion-content> -->
+
+<ion-content *ngIf="isThereUSuperhero">
+  <ion-row>
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-item>
+        <ion-label position="floating">
+          Name: {{usuperhero.name}}
+        </ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-item>
+        <ion-label position="floating">
+          Description: {{usuperhero.description}}
+        </ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-item>
+        <ion-label position="floating">
+          <img [src]="usuperhero.img">
+        </ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+

@@ -4,6 +4,7 @@ import {BehaviorSubject, map,tap} from "rxjs";
 import {Superhero} from "./superheroes/superhero-element/superhero-model";
 import {AuthService} from "./auth/auth.service";
 import {Favorite} from "./favorites/favorite-element/favorite-model";
+import { USuperhero } from './u-superhero/usuperhero-model';
 
 interface SuperheroData {
   name: string;
@@ -14,6 +15,14 @@ interface SuperheroData {
   user_id: string;
   iconName: string;
 }
+
+interface USuperheroData {
+  name: string;
+  description: string;
+  img: string;
+  user_id: string;
+}
+
 
 interface FavoritesData{
   superheroID: string;
@@ -30,9 +39,13 @@ export class SuperheroServiceService {
   id: string;
   isIt: Boolean;
   private _superheroes = new BehaviorSubject<Superhero[]>([])
+  private _usuperheroes = new BehaviorSubject<USuperhero[]>([])
   private _favorites = new BehaviorSubject<Superhero[]>([])
   get superheroes(){
     return this._superheroes.asObservable();
+  }
+  get usuperheroes(){
+    return this._usuperheroes.asObservable();
   }
   get favorites(){
     return this._favorites.asObservable();
@@ -51,12 +64,20 @@ export class SuperheroServiceService {
     })
   }
 
+  uploadUSuperhero(name: string, description: string, img: string, user_id: String,){
+    return this.http.post<{id: string}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/usuperhero.json?auth=${this.authService.getToken()}`, {
+      name, description, img, user_id
+    })
+  }
+
   addFavorite(superheroID: String,
               user_id: String) {
     return this.http.post<{id: string}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/favorites.json?auth=${this.authService.getToken()}`, {
       superheroID, user_id
     })
   }
+
+  
 
   //vraca objekat u formatu {"id1": {superhero1},"id2": {superhero2}...  }
   //superhero1 i superhero2 prate strukturu interfejsa SuperheroData
@@ -91,6 +112,35 @@ export class SuperheroServiceService {
 
     }));
   }
+
+  getallUSuperhero(){
+    return this.http.get<{[key: string]: USuperheroData}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/usuperhero.json?auth=${this.authService.getToken()}`)
+      .pipe(map((usuperheroData)=>{
+        console.log(usuperheroData);
+        const usuperheroes: USuperhero[]=[];
+
+        for(const key in usuperheroData){
+          //provera da ne gleda nasledjene property-je
+          if(usuperheroData.hasOwnProperty(key)){
+            usuperheroes.push({
+              id:key,
+              name: usuperheroData[key].name,
+              description: usuperheroData[key].description,
+              img: usuperheroData[key].img,
+              user_id: usuperheroData[key].user_id
+            });
+          }
+        }
+
+        return usuperheroes;
+      }),
+      tap((usuperheroes)=>{
+        this._usuperheroes.next(usuperheroes);
+
+
+    }));
+  }
+
   getSuperheroesById(){
     return this.http.get<{[key: string]: SuperheroData}>(`https://superhero-app-5c948-default-rtdb.firebaseio.com/superheroes.json?auth=${this.authService.getToken()}`)
       .pipe(map((superheroData)=>{
