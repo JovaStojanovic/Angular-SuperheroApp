@@ -3,6 +3,7 @@ import {AddSuperheroModalComponent} from "./add-superhero.modal/add-superhero.mo
 import {ModalController} from "@ionic/angular";
 import {SuperheroServiceService} from "./superhero-service.service";
 import {AuthService} from "./auth/auth.service";
+import { defineCustomElement } from '@ionic/core/components/ion-modal.js';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {AuthService} from "./auth/auth.service";
 })
 export class AppComponent {
   constructor(private modalCtrl: ModalController, private superheroService: SuperheroServiceService, private authService: AuthService) {}
+
 
   openModal(){
     this.modalCtrl.create({
@@ -36,4 +38,7 @@ export class AppComponent {
         }
     })
   }
+
+  defineCustomElement(){}; 
+
 }
